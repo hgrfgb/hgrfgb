@@ -558,19 +558,16 @@
 \renewcommand{\i}{\ensuremath{\mathrm{i}}}
 \graphicspath{{vendor/upstream/}}
 
-\ExplSyntaxOn
-\tl_new:N \l__exam_img_opts_tl
-\cs_new_protected:Npn \exam_include:nn #1#2
- {
-  \tl_set:Nn \l__exam_img_opts_tl {#1}
-  \regex_replace_all:nnN { (^|,)\s*float\s*=\s*(auto|inline|top)\s*(?=,|$) } { } \l__exam_img_opts_tl
-  \regex_replace_all:nnN { \A\s*,+ | ,+\s*\Z } { } \l__exam_img_opts_tl
-  \adjustbox{\tl_use:N \l__exam_img_opts_tl,max~width=\linewidth}{\includegraphics{#2}}
- }
-\NewDocumentCommand{\bitmapinclude}{O{}m}{\exam_include:nn{#1}{#2}}
-\NewDocumentCommand{\bitmapfigure}{O{}m}{\par\begin{center}\exam_include:nn{#1}{#2}\end{center}\par}
-\NewDocumentCommand{\choicebitmap}{O{}m}{\exam_include:nn{#1}{#2}}
-\ExplSyntaxOff
+\NewDocumentCommand{\bitmapinclude}{O{}m}{%
+  \adjustbox{#1,max width=\linewidth}{\includegraphics{#2}}%
+}
+\NewDocumentCommand{\bitmapfigure}{O{}m}{%
+  \par\begin{center}\adjustbox{#1,max width=\linewidth}{\includegraphics{#2}}\end{center}\par
+}
+\NewDocumentCommand{\choicebitmap}{O{}m}{%
+  \adjustbox{#1,max width=\linewidth,valign=c}{\includegraphics{#2}}%
+}
+
 \newcommand{\FigureLayoutDeclare}[3]{}
 \newcommand{\FigureTrimDeclare}[2]{}
 \newcommand{\examfiguregroup}[3][]{\par\begin{center}#3\end{center}\par}
