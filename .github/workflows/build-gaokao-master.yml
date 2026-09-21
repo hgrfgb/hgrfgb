@@ -30,4 +30,5 @@ jobs:
           git commit -m "Build 2020-2025 Gaokao retypeset PDF" || exit 0
           git push origin HEAD:master
 
-# build trigger 2
+
+# build trigger 3
