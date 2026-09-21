@@ -1,0 +1,649 @@
+% !TeX program = xelatex
+\documentclass[11pt,UTF8,oneside,openany,a4paper]{ctexbook}
+
+% ============================================================
+% Electronic Reading Chinese Mathematics Book Template
+% Portable version: no explicit font names or font bindings.
+% Compile with XeLaTeX until references, TOC and index stabilize.
+% ============================================================
+
+% ---------- A4 electronic-reading page geometry ----------
+\usepackage[
+  a4paper,
+  left=25mm,
+  right=25mm,
+  top=24mm,
+  bottom=26mm,
+  headheight=14pt,
+  headsep=6mm,
+  footskip=10mm
+]{geometry}
+
+% ---------- Mathematics and structure ----------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning,arrows.meta,decorations.pathreplacing}
+\usepackage{tikz-cd}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+\usepackage{imakeidx}
+\makeindex[intoc,columns=2,columnsep=1.4em,title={索引}]
+
+% Load hyperlink packages near the end of the preamble.
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\newcommand{\mainindex}[1]{\textbf{\hyperpage{#1}}}
+
+% ---------- Color system ----------
+\definecolor{DeepNavy}{HTML}{17324D}
+\definecolor{ScholarBlue}{HTML}{315A7D}
+\definecolor{MutedBlue}{HTML}{EAF1F6}
+\definecolor{WarmGold}{HTML}{B48A3C}
+\definecolor{PaleGold}{HTML}{F7F1E4}
+\definecolor{Forest}{HTML}{476B5B}
+\definecolor{PaleGreen}{HTML}{EDF4F0}
+\definecolor{Brick}{HTML}{8A4A42}
+\definecolor{PaleRose}{HTML}{F7EEEE}
+\definecolor{Ink}{HTML}{202830}
+\definecolor{MidGray}{HTML}{66727D}
+\definecolor{LightGray}{HTML}{F4F5F6}
+\definecolor{RuleGray}{HTML}{D6DCE1}
+\definecolor{CoverPaper}{HTML}{F5F1E8}
+
+% ---------- PDF metadata and links ----------
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  linkcolor=DeepNavy,
+  citecolor=Forest,
+  urlcolor=ScholarBlue,
+  pdfauthor={高考数学试卷; 重排 kakakaka},
+  pdftitle={2020--2025年高考数学试卷 LaTeX 重排},
+  pdfsubject={2020--2025年高考数学试卷 LaTeX 重排},
+  pdfkeywords={高考数学, 试卷, LaTeX, 2020--2025},
+  bookmarksopen=true,
+  bookmarksnumbered=true,
+  pdfpagemode=UseOutlines,
+  pdfpagelayout=SinglePage,
+  pdfstartview=FitH,
+  pdfdisplaydoctitle=true
+}
+
+% ---------- Reading rhythm and page stability ----------
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\linespread{1.13}
+\emergencystretch=2em
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+\brokenpenalty=10000
+\raggedbottom
+\setlist{topsep=.35em,itemsep=.15em,parsep=0pt,leftmargin=1.9em,labelsep=.55em}
+\setlist[enumerate,1]{label=\textup{(\arabic*)}}
+\setlist[enumerate,2]{label=\textup{(\roman*)}}
+\setlist[itemize,1]{label=\textcolor{ScholarBlue}{\small$\blacktriangleright$}}
+\allowdisplaybreaks[3]
+\setlength{\jot}{3pt}
+\numberwithin{equation}{chapter}
+
+% ---------- Chapter and section typography ----------
+\ctexset{
+  chapter={
+    name={第,章},
+    number=\arabic{chapter},
+    beforeskip=0pt,
+    afterskip=16pt,
+    pagestyle=plain
+  },
+  section={
+    name={},
+    number=\thesection,
+    beforeskip=2.4ex plus .5ex minus .2ex,
+    afterskip=.9ex
+  },
+  subsection={
+    name={},
+    number=\thesubsection,
+    beforeskip=1.9ex plus .4ex minus .2ex,
+    afterskip=.65ex
+  },
+  subsubsection={
+    name={},
+    number=\thesubsubsection,
+    beforeskip=1.6ex plus .35ex minus .15ex,
+    afterskip=.55ex
+  }
+}
+
+\titleformat{\chapter}[display]
+  {\normalfont\raggedright}
+  {\sffamily\color{ScholarBlue}\small\bfseries 第\,\thechapter\,章}
+  {.7ex}
+  {\color{Ink}\bfseries\fontsize{24}{31}\selectfont\raggedright}
+  [\vspace{1.0ex}{\color{WarmGold}\titlerule[1.1pt]}]
+
+\titleformat{\section}[hang]
+  {\heiti\Large\mdseries\color{DeepNavy}\raggedright}
+  {\makebox[3.8em][l]{\color{WarmGold}\thesection}}
+  {0pt}
+  {}
+
+\titleformat{\subsection}[hang]
+  {\sffamily\large\bfseries\color{Ink}\raggedright}
+  {\makebox[4.9em][l]{\color{ScholarBlue}\thesubsection}}
+  {0pt}
+  {}
+
+\titleformat{\subsubsection}[hang]
+  {\sffamily\normalsize\bfseries\color{Ink}\raggedright}
+  {\makebox[5.9em][l]{\color{MidGray}\thesubsubsection}}
+  {0pt}
+  {}
+
+\titleformat{\paragraph}[hang]
+  {\normalfont\bfseries\color{DeepNavy}\raggedright}
+  {}
+  {0pt}
+  {}
+
+\titlespacing*{\chapter}{0pt}{-5pt}{16pt}
+\titlespacing*{\section}{0pt}{2.4ex plus .5ex minus .2ex}{.9ex}
+\titlespacing*{\subsection}{0pt}{1.9ex plus .4ex minus .2ex}{.65ex}
+\titlespacing*{\subsubsection}{0pt}{1.6ex plus .35ex minus .15ex}{.55ex}
+\titlespacing*{\paragraph}{0pt}{1.4ex plus .3ex minus .1ex}{.45ex}
+
+\setcounter{secnumdepth}{3}
+\newcommand{\BookTOCDepth}{3}
+\setcounter{tocdepth}{\BookTOCDepth}
+
+% Keep headings with enough following text.
+\pretocmd{\section}{\Needspace{6\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace{5\baselineskip}}{}{}
+\pretocmd{\subsubsection}{\Needspace{4\baselineskip}}{}{}
+\pretocmd{\paragraph}{\Needspace{3\baselineskip}}{}{}
+
+% ---------- Uniform running heads for every content page ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{第\thechapter 章\quad #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\quad #1}}
+\fancyhead[L]{\footnotesize\color{MidGray}\nouppercase{\leftmark}}
+\fancyhead[R]{\footnotesize\color{MidGray}\nouppercase{\rightmark}}
+\fancyfoot[C]{\footnotesize\color{ScholarBlue}\thepage}
+\renewcommand{\headrulewidth}{.35pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\footnotesize\color{ScholarBlue}\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% ---------- Table of contents ----------
+\renewcommand{\contentsname}{目录}
+
+% The fallback TOC is deliberately inset from the A4 text-block edge and uses
+% compact type. Every page number occupies the same fixed-width right-aligned
+% column, so roman numerals and one-, two-, or three-digit arabic numbers share
+% one right boundary.
+\newlength{\TOCPageNumberWidth}
+\setlength{\TOCPageNumberWidth}{3.5em}
+\newlength{\TOCPageNumberGap}
+\setlength{\TOCPageNumberGap}{.75em}
+\contentsmargin{\dimexpr\TOCPageNumberWidth+\TOCPageNumberGap\relax}
+
+\newcommand{\TOCPageNumber}{%
+  \nobreak\hspace{\TOCPageNumberGap}%
+  \makebox[\TOCPageNumberWidth][r]{\contentspage}%
+}
+\newcommand{\TOCDottedPage}{%
+  \nobreak\hspace{.55em}%
+  \titlerule*[.58pc]{\textcolor{RuleGray}{.}}%
+  \TOCPageNumber
+}
+\newcommand{\TOCPlainPage}{%
+  \nobreak\hfill\TOCPageNumber
+}
+
+% This is a clean fallback. In a real retypesetting project, the original
+% book's TOC hierarchy, numbering, wording, inclusion depth and visual
+% conventions must be reproduced first. The fallback below uses a clear left
+% safety inset, compact entry sizes and fixed hanging indents.
+\titlecontents{chapter}
+  [2.5em]
+  {\addvspace{.48em}\fontsize{10.5}{14.5}\selectfont\bfseries\color{Ink}}
+  {\contentslabel{4.2em}}
+  {\hspace*{-4.2em}}
+  {\TOCPlainPage}
+
+\titlecontents{section}
+  [4.6em]
+  {\fontsize{9.8}{13.4}\selectfont\color{Ink}}
+  {\contentslabel{3.8em}}
+  {\hspace*{3.8em}}
+  {\TOCDottedPage}
+
+\titlecontents{subsection}
+  [8.4em]
+  {\fontsize{9.1}{12.7}\selectfont\color{Ink}}
+  {\contentslabel{4.4em}}
+  {\hspace*{4.4em}}
+  {\TOCDottedPage}
+
+\titlecontents{subsubsection}
+  [12.8em]
+  {\fontsize{8.6}{12.1}\selectfont\color{Ink}}
+  {\contentslabel{5.1em}}
+  {\hspace*{5.1em}}
+  {\TOCDottedPage}
+
+\makeatletter
+\newcommand{\bookcontents}{%
+  \clearpage
+  \thispagestyle{plain}
+  \phantomsection
+  \pdfbookmark[0]{\contentsname}{contents}
+  \vspace*{-4mm}
+  \begin{center}
+    {\bfseries\fontsize{20}{25}\selectfont\contentsname}
+  \end{center}
+  \vspace{4mm}
+  \begingroup
+    \hypersetup{linkcolor=Ink}% TOC links stay black, like a traditional book.
+    \parskip=0pt
+    \@starttoc{toc}
+  \endgroup
+  \clearpage
+}
+\makeatother
+
+% ---------- Captions ----------
+\captionsetup{
+  font=footnotesize,
+  labelfont={bf,color=DeepNavy},
+  textfont={color=Ink},
+  labelsep=quad,
+  skip=5pt
+}
+\captionsetup[table]{position=top}
+
+% ---------- Theorem system: retained boxed-title structure ----------
+\newtcbtheorem[
+  number within=section,
+  crefname={定义}{定义},
+  Crefname={定义}{定义}
+]{definition}{定义}{
+  enhanced,breakable,
+  colback=MutedBlue,
+  colframe=ScholarBlue,
+  colbacktitle=ScholarBlue,
+  coltitle=white,
+  fonttitle=\bfseries,
+  fontupper=\normalfont,
+  boxrule=.55pt,
+  arc=1.2mm,
+  left=2.1mm,right=2.1mm,top=1.2mm,bottom=1.2mm,
+  before skip=7pt,after skip=7pt,
+  attach boxed title to top left={xshift=2mm,yshift*=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt,arc=.8mm,left=2mm,right=2mm,top=.7mm,bottom=.7mm}
+}{def}
+
+\newtcbtheorem[
+  use counter from=definition,
+  crefname={定理}{定理},
+  Crefname={定理}{定理}
+]{theorem}{定理}{
+  enhanced,breakable,
+  colback=PaleGold,
+  colframe=WarmGold,
+  colbacktitle=WarmGold,
+  coltitle=white,
+  fonttitle=\bfseries,
+  fontupper=\itshape,
+  boxrule=.6pt,
+  arc=1.2mm,
+  left=2.1mm,right=2.1mm,top=1.2mm,bottom=1.2mm,
+  before skip=8pt,after skip=8pt,
+  attach boxed title to top left={xshift=2mm,yshift*=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt,arc=.8mm,left=2mm,right=2mm,top=.7mm,bottom=.7mm}
+}{thm}
+
+\newtcbtheorem[
+  use counter from=definition,
+  crefname={命题}{命题},
+  Crefname={命题}{命题}
+]{proposition}{命题}{
+  enhanced,breakable,
+  colback=PaleGreen,
+  colframe=Forest,
+  colbacktitle=Forest,
+  coltitle=white,
+  fonttitle=\bfseries,
+  boxrule=.55pt,
+  arc=1.2mm,
+  left=2.1mm,right=2.1mm,top=1.2mm,bottom=1.2mm,
+  before skip=7pt,after skip=7pt,
+  attach boxed title to top left={xshift=2mm,yshift*=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt,arc=.8mm,left=2mm,right=2mm,top=.7mm,bottom=.7mm}
+}{prop}
+
+\newtcbtheorem[
+  use counter from=definition,
+  crefname={推论}{推论},
+  Crefname={推论}{推论}
+]{corollary}{推论}{
+  enhanced,breakable,
+  colback=LightGray,
+  colframe=MidGray,
+  colbacktitle=MidGray,
+  coltitle=white,
+  fonttitle=\bfseries,
+  boxrule=.5pt,
+  arc=1.2mm,
+  left=2.1mm,right=2.1mm,top=1.2mm,bottom=1.2mm,
+  before skip=7pt,after skip=7pt,
+  attach boxed title to top left={xshift=2mm,yshift*=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt,arc=.8mm,left=2mm,right=2mm,top=.7mm,bottom=.7mm}
+}{cor}
+
+\newtcolorbox{examplebox}[1][]{
+  enhanced,breakable,
+  colback=white,
+  colframe=RuleGray,
+  borderline west={2.2pt}{0pt}{ScholarBlue},
+  boxrule=.45pt,
+  arc=.7mm,
+  title={例题\ifstrempty{#1}{}{:#1}},
+  colbacktitle=white,
+  coltitle=DeepNavy,
+  fonttitle=\bfseries,
+  attach boxed title to top left={xshift=2mm,yshift*=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt,arc=.8mm,left=2mm,right=2mm,top=.7mm,bottom=.7mm},
+  left=2.4mm,right=2.1mm,top=1.4mm,bottom=1.4mm,
+  before skip=7pt,after skip=7pt
+}
+
+\newtcolorbox{remarkbox}[1][]{
+  enhanced,breakable,
+  colback=LightGray,
+  colframe=RuleGray,
+  boxrule=.45pt,
+  arc=1mm,
+  title={注记\ifstrempty{#1}{}{:#1}},
+  colbacktitle=RuleGray,
+  coltitle=Ink,
+  fonttitle=\bfseries,
+  attach boxed title to top left={xshift=2mm,yshift*=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt,arc=.8mm,left=2mm,right=2mm,top=.7mm,bottom=.7mm},
+  left=2.1mm,right=2.1mm,top=1.3mm,bottom=1.3mm,
+  before skip=7pt,after skip=7pt
+}
+
+\newtcolorbox{typesetternote}[1][]{
+  enhanced,breakable,
+  colback=PaleRose,
+  colframe=Brick,
+  colbacktitle=Brick,
+  coltitle=white,
+  boxrule=.5pt,
+  arc=1mm,
+  title={重排注\ifstrempty{#1}{}{:#1}},
+  fonttitle=\bfseries,
+  attach boxed title to top left={xshift=2mm,yshift*=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt,arc=.8mm,left=2mm,right=2mm,top=.7mm,bottom=.7mm},
+  left=2.1mm,right=2.1mm,top=1.3mm,bottom=1.3mm,
+  before skip=7pt,after skip=7pt
+}
+
+\newtcolorbox{exercisebox}[1][]{
+  enhanced,breakable,
+  colback=MutedBlue!38!white,
+  colframe=DeepNavy,
+  colbacktitle=DeepNavy,
+  coltitle=white,
+  boxrule=.55pt,
+  arc=1.2mm,
+  title={习题\ifstrempty{#1}{}{\quad #1}},
+  fonttitle=\bfseries,
+  attach boxed title to top left={xshift=2mm,yshift*=-\tcboxedtitleheight/2},
+  boxed title style={boxrule=0pt,arc=.8mm,left=2.2mm,right=2.2mm,top=.7mm,bottom=.7mm},
+  left=2.4mm,right=2.4mm,top=1.8mm,bottom=1.8mm,
+  before skip=9pt,after skip=9pt
+}
+
+% ---------- Proof style ----------
+\renewcommand{\proofname}{证明}
+\renewcommand{\qedsymbol}{\textcolor{WarmGold}{\rule{.72em}{.72em}}}
+
+% ---------- Cross-reference names ----------
+\crefname{chapter}{章}{章}
+\crefname{section}{节}{节}
+\crefname{subsection}{小节}{小节}
+\crefname{subsubsection}{小节}{小节}
+\crefname{equation}{式}{式}
+\crefname{figure}{图}{图}
+\crefname{table}{表}{表}
+\crefname{definition}{定义}{定义}
+\crefname{theorem}{定理}{定理}
+\crefname{proposition}{命题}{命题}
+\crefname{corollary}{推论}{推论}
+
+\newcommand{\chapref}[1]{\hyperref[#1]{第~\ref*{#1}~章}}
+\newcommand{\secref}[1]{\hyperref[#1]{第~\ref*{#1}~节}}
+\newcommand{\subsecref}[1]{\hyperref[#1]{第~\ref*{#1}~小节}}
+
+% ---------- Useful mathematics commands ----------
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\rankop}{rank}
+\DeclareMathOperator{\spec}{spec}
+\DeclareMathOperator{\id}{id}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+
+% ---------- Cover information ----------
+\newcommand{\BookTitle}{2020--2025年高考数学试卷}
+\newcommand{\BookSubtitle}{普通高考与上海春季高考}
+\newcommand{\BookAuthor}{原试卷汇编}
+\newcommand{\BookEdition}{LaTeX 重排版}
+\newcommand{\BookTypesetter}{kakakaka}
+\newcommand{\BookDate}{\today}
+
+% Completely redesigned minimal electronic-reading cover.
+\newcommand{\makeprofessionalcover}{
+  \begin{titlepage}
+    \thispagestyle{empty}
+    \begin{tikzpicture}[remember picture,overlay]
+      \fill[CoverPaper]
+        (current page.south west) rectangle (current page.north east);
+      \fill[DeepNavy]
+        (current page.south west) rectangle
+        ([xshift=17mm]current page.north west);
+      \fill[WarmGold]
+        ([xshift=17mm,yshift=-21mm]current page.north west) rectangle
+        ([xshift=23mm,yshift=-15mm]current page.north west);
+      \draw[RuleGray,line width=.6pt]
+        ([xshift=35mm,yshift=-31mm]current page.north west) --
+        ([xshift=-18mm,yshift=-31mm]current page.north east);
+      \draw[WarmGold,line width=1.4pt]
+        ([xshift=35mm,yshift=-83mm]current page.north west) -- ++(31mm,0);
+
+      \node[anchor=north west,text=ScholarBlue,font={\bfseries\scriptsize},
+            align=left]
+        at ([xshift=35mm,yshift=-20mm]current page.north west)
+        {MATHEMATICS\quad /\quad LATEX TYPESETTING};
+
+      \node[anchor=north west,text=DeepNavy,
+            font={\bfseries\fontsize{31}{41}\selectfont},
+            align=left,text width=103mm]
+        at ([xshift=35mm,yshift=-51mm]current page.north west)
+        {\BookTitle};
+
+      \node[anchor=north west,text=ScholarBlue,
+            font={\fontsize{15.5}{23}\selectfont},
+            align=left,text width=98mm]
+        at ([xshift=36mm,yshift=-96mm]current page.north west)
+        {\BookSubtitle};
+
+      \node[anchor=north west,text=MidGray,
+            font={\small},align=left,text width=98mm]
+        at ([xshift=36mm,yshift=-133mm]current page.north west)
+        {\BookEdition};
+
+      \node[anchor=south west,text=Ink,font={\large}]
+        at ([xshift=36mm,yshift=56mm]current page.south west)
+        {\BookAuthor\ 著};
+      \node[anchor=south west,text=MidGray,font={\small}]
+        at ([xshift=36mm,yshift=42mm]current page.south west)
+        {重排: \BookTypesetter};
+      \node[anchor=south west,text=MidGray,font={\small}]
+        at ([xshift=36mm,yshift=31mm]current page.south west)
+        {日期: \BookDate};
+
+      \node[rotate=90,anchor=south west,text=white,
+            font={\bfseries\footnotesize}]
+        at ([xshift=5.5mm,yshift=22mm]current page.south west)
+        {ELECTRONIC READING EDITION};
+    \end{tikzpicture}
+    \null
+  \end{titlepage}
+  \clearpage
+}
+
+% ---------- Document ----------
+
+% ---------- Necessary compatibility layer for exam-paper source ----------
+% The template above is retained; the following commands only map the original
+% exam source structure and original bitmap assets into the template.
+\newcounter{problem}
+\NewDocumentEnvironment{problem}{O{}}{%
+  \refstepcounter{problem}\par\medskip\noindent
+  \textbf{\theproblem\ifstrempty{#1}{}{#1}.}\ %
+}{\par\medskip}
+\newcommand{\reuseproblemnumber}{\addtocounter{problem}{-1}}
+\newcommand{\fillinblank}{\nobreak\hspace{.25em}\rule[-.2ex]{5em}{.4pt}\hspace{.25em}}
+\newcommand{\circled}[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=.7pt](char){\scriptsize #1};}}
+\NewDocumentEnvironment{circlelist}{O{}}{%
+  \begin{enumerate}[label=\protect\circled{\arabic*},leftmargin=2.6em,itemsep=.2em]
+}{\end{enumerate}}
+\newcommand{\choices}[4]{%
+  \begin{enumerate}[label=\textbf{\Alph*.},leftmargin=2.5em,itemsep=.12em,topsep=.25em]
+    \item #1 \item #2 \item #3 \item #4
+  \end{enumerate}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\bs}[1]{\bm{#1}}
+\newcommand{\degree}{^\circ}
+\renewcommand{\i}{\ensuremath{\mathrm{i}}}
+\graphicspath{{vendor/upstream/}}
+
+\ExplSyntaxOn
+\tl_new:N \l__exam_img_opts_tl
+\cs_new_protected:Npn \exam_include:nn #1#2
+ {
+  \tl_set:Nn \l__exam_img_opts_tl {#1}
+  \regex_replace_all:nnN { (^|,)\s*float\s*=\s*(auto|inline|top)\s*(?=,|$) } { } \l__exam_img_opts_tl
+  \regex_replace_all:nnN { \A\s*,+ | ,+\s*\Z } { } \l__exam_img_opts_tl
+  \adjustbox{\tl_use:N \l__exam_img_opts_tl,max~width=\linewidth}{\includegraphics{#2}}
+ }
+\NewDocumentCommand{\bitmapinclude}{O{}m}{\exam_include:nn{#1}{#2}}
+\NewDocumentCommand{\bitmapfigure}{O{}m}{\par\begin{center}\exam_include:nn{#1}{#2}\end{center}\par}
+\NewDocumentCommand{\choicebitmap}{O{}m}{\exam_include:nn{#1}{#2}}
+\ExplSyntaxOff
+\newcommand{\FigureLayoutDeclare}[3]{}
+\newcommand{\FigureTrimDeclare}[2]{}
+\newcommand{\examfiguregroup}[3][]{\par\begin{center}#3\end{center}\par}
+\newcommand{\ExamInput}[1]{\setcounter{problem}{0}\input{#1}}
+\begin{document}
+
+\hypersetup{pageanchor=false}
+\makeprofessionalcover
+\hypersetup{pageanchor=true}
+
+\frontmatter
+\bookcontents
+\mainmatter
+\setcounter{secnumdepth}{-1}
+\ExamInput{content/2020/beijing.tex}
+\ExamInput{content/2020/jiangsu.tex}
+\ExamInput{content/2020/national_paper_1_liberal.tex}
+\ExamInput{content/2020/national_paper_1_science.tex}
+\ExamInput{content/2020/national_paper_2_liberal.tex}
+\ExamInput{content/2020/national_paper_2_science.tex}
+\ExamInput{content/2020/national_paper_3_liberal.tex}
+\ExamInput{content/2020/national_paper_3_science.tex}
+\ExamInput{content/2020/new_gaokao_paper_1.tex}
+\ExamInput{content/2020/new_gaokao_paper_2.tex}
+\ExamInput{content/2020/shanghai.tex}
+\ExamInput{content/2020/shanghai_spring.tex}
+\ExamInput{content/2020/tianjin.tex}
+\ExamInput{content/2020/zhejiang.tex}
+\ExamInput{content/2021/beijing.tex}
+\ExamInput{content/2021/national_paper_a_liberal.tex}
+\ExamInput{content/2021/national_paper_a_science.tex}
+\ExamInput{content/2021/national_paper_b_liberal.tex}
+\ExamInput{content/2021/national_paper_b_science.tex}
+\ExamInput{content/2021/new_gaokao_paper_1.tex}
+\ExamInput{content/2021/new_gaokao_paper_2.tex}
+\ExamInput{content/2021/shanghai.tex}
+\ExamInput{content/2021/shanghai_spring.tex}
+\ExamInput{content/2021/tianjin.tex}
+\ExamInput{content/2021/zhejiang.tex}
+\ExamInput{content/2022/beijing.tex}
+\ExamInput{content/2022/national_paper_a_liberal.tex}
+\ExamInput{content/2022/national_paper_a_science.tex}
+\ExamInput{content/2022/national_paper_b_liberal.tex}
+\ExamInput{content/2022/national_paper_b_science.tex}
+\ExamInput{content/2022/new_gaokao_paper_1.tex}
+\ExamInput{content/2022/new_gaokao_paper_2.tex}
+\ExamInput{content/2022/shanghai.tex}
+\ExamInput{content/2022/shanghai_spring.tex}
+\ExamInput{content/2022/tianjin.tex}
+\ExamInput{content/2022/zhejiang.tex}
+\ExamInput{content/2023/beijing.tex}
+\ExamInput{content/2023/national_paper_a_liberal.tex}
+\ExamInput{content/2023/national_paper_a_science.tex}
+\ExamInput{content/2023/national_paper_b_liberal.tex}
+\ExamInput{content/2023/national_paper_b_science.tex}
+\ExamInput{content/2023/new_gaokao_paper_1.tex}
+\ExamInput{content/2023/new_gaokao_paper_2.tex}
+\ExamInput{content/2023/shanghai.tex}
+\ExamInput{content/2023/shanghai_spring.tex}
+\ExamInput{content/2023/tianjin.tex}
+\ExamInput{content/2024/beijing.tex}
+\ExamInput{content/2024/national_paper_a_liberal.tex}
+\ExamInput{content/2024/national_paper_a_science.tex}
+\ExamInput{content/2024/new_gaokao_paper_1.tex}
+\ExamInput{content/2024/new_gaokao_paper_2.tex}
+\ExamInput{content/2024/shanghai.tex}
+\ExamInput{content/2024/shanghai_spring.tex}
+\ExamInput{content/2024/tianjin.tex}
+\ExamInput{content/2025/beijing.tex}
+\ExamInput{content/2025/national_paper_1.tex}
+\ExamInput{content/2025/national_paper_2.tex}
+\ExamInput{content/2025/shanghai.tex}
+\ExamInput{content/2025/shanghai_spring.tex}
+\ExamInput{content/2025/tianjin.tex}
+
+\end{document}
