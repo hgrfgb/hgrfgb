@@ -29,3 +29,5 @@ jobs:
           git add gaokao_retypeset_2020_2025/main.pdf
           git commit -m "Build 2020-2025 Gaokao retypeset PDF" || exit 0
           git push origin HEAD:master
+
+# build trigger 2
